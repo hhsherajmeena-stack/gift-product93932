@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swaba Handicraft - Products & Checkout</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #faf9f6;
+            color: #333;
+        }
+        .announcement-bar {
+            background-color: #f39c12;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+        .logo span {
+            font-weight: normal;
+            font-size: 13px;
+            display: block;
+            color: #777;
+        }
+        .support-info {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f1f2f6;
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+        .products-section {
+            padding: 30px 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .product-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .product-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 260px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        .badge {
+            background: #f39c12;
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .img-box {
+            background: #f1f2f6;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            margin: 12px 0;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            padding: 0 10px;
+        }
+        .price-box {
+            margin: 10px 0;
+        }
+        .current-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d35400;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-left: 8px;
+            font-size: 15px;
+        }
+        .discount {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .cart-btn {
+            display: block;
+            width: 100%;
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cart-btn:hover {
+            background-color: #e67e22;
+        }
+
+        /* Modal Popup Form Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Payment Section Styles inside Modal */
+        #paymentSection {
+            display: none;
+            text-align: center;
+        }
+        .qr-box {
+            margin: 15px 0;
+        }
+        .qr-box img {
+            width: 180px;
+            height: 180px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .upi-options {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .upi-options p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+        Biggest Sale Of The Year! - 70% Off | Free Shipping
+    </div>
+
+    <!-- Header with Customer Care Number -->
+    <header>
+        <div class="logo">SWABA <span>HANDICRAFT</span></div>
+        <div class="support-info">📞 Helpline: 8955550232</div>
+    </header>
+
+    <!-- Direct Products Section (8 Products) -->
+    <section class="products-section">
+        <h2>EXCLUSIVE DECOR PRODUCTS</h2>
+        <p>Choose your favorite luxury pieces at the best value. Customer Care: <strong>8955550232</strong></p>
+        
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">White And Coral Buddha</div>
+                <h3>White And Coral Buddha Idol</h3>
+                <div class="price-box">
+                    <span class="current-price">₹1,999</span>
+                    <span class="old-price">₹9,199</span>
+                </div>
+                <span class="discount">78% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('White And Coral Buddha Idol', 1999)">Order Now</button>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Gold & White Resin Buddha</div>
+                <h3>Gold & White Resin Buddha</h3>
+                <div class="price-box">
+                    <span class="current-price">₹1,999</span>
+                    <span class="old-price">₹9,199</span>
+                </div>
+                <span class="discount">78% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Gold & White Resin Buddha', 1999)">Order Now</button>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Horse Wall Decor</div>
+                <h3>Noble Black Horse Wall Decor</h3>
+                <div class="price-box">
+                    <span class="current-price">₹2,499</span>
+                    <span class="old-price">₹10,999</span>
+                </div>
+                <span class="discount">77% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Noble Black Horse Wall Decor', 2499)">Order Now</button>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Abstract Thinker Figurine</div>
+                <h3>Abstract Thinker White Figurine</h3>
+                <div class="price-box">
+                    <span class="current-price">₹1,499</span>
+                    <span class="old-price">₹6,999</span>
+                </div>
+                <span class="discount">78% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Abstract Thinker White Figurine', 1499)">Order Now</button>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Royal Deer Showpiece</div>
+                <h3>Royal Multi-Color Deer Showpiece</h3>
+                <div class="price-box">
+                    <span class="current-price">₹1,799</span>
+                    <span class="old-price">₹7,999</span>
+                </div>
+                <span class="discount">77% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Royal Multi-Color Deer Showpiece', 1799)">Order Now</button>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Meditating Monk Idol</div>
+                <h3>Zen Meditating Monk Idol</h3>
+                <div class="price-box">
+                    <span class="current-price">₹1,299</span>
+                    <span class="old-price">₹5,999</span>
+                </div>
+                <span class="discount">78% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Zen Meditating Monk Idol', 1299)">Order Now</button>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Modern Art Sculpture</div>
+                <h3>Golden Touch Art Sculpture</h3>
+                <div class="price-box">
+                    <span class="current-price">₹2,199</span>
+                    <span class="old-price">₹9,999</span>
+                </div>
+                <span class="discount">78% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Golden Touch Art Sculpture', 2199)">Order Now</button>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card">
+                <span class="badge">Extra 70% OFF</span>
+                <div class="img-box">Dancing Lord Ganesha</div>
+                <h3>Divine Dancing Ganesha Idol</h3>
+                <div class="price-box">
+                    <span class="current-price">₹2,599</span>
+                    <span class="old-price">₹11,499</span>
+                </div>
+                <span class="discount">77% OFF</span>
+                <button class="cart-btn" onclick="openOrderModal('Divine Dancing Ganesha Idol', 2599)">Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal Popup -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <!-- Step 1: Customer Info Form -->
+            <div id="formSection">
+                <h3 id="modalProductTitle">Enter Your Details</h3>
+                <p style="font-size: 13px; color: #555;">Price: <strong id="modalProductPrice" style="color: #d35400;"></strong></p>
+                
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="custName" placeholder="Apna naam likhein">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number:</label>
+                    <input type="text" id="custPhone" placeholder="Apna mobile number likhein">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address:</label>
+                    <textarea id="custAddress" rows="3" placeholder="Pura pata (Address) likhein"></textarea>
+                </div>
+
+                <button class="cart-btn" onclick="proceedToPayment()">Proceed to Pay via GPay / PhonePe / Paytm</button>
+                <button class="close-btn" onclick="closeOrderModal()">Cancel</button>
+            </div>
+
+            <!-- Step 2: QR Code & UPI Options Section -->
+            <div id="paymentSection">
+                <h3>Scan QR or Pay via UPI App</h3>
+                <p style="font-size: 13px; color: #555;">Amount to Pay: <strong id="payAmount" style="color: #d35400;"></strong></p>
+                
+                <div class="qr-box">
+                    <!-- Aapka naya QR Code image yahan set kar diya gaya hai -->
+                    <img src="15645_2.jpg" alt="Google Pay & UPI QR Code">
+                </div>
+
+                <div class="upi-options">
+                    <p style="color: #2c3e50; margin-bottom: 5px;">📲 Supported: Google Pay, PhonePe & Paytm</p>
+                    <span style="color: #555;">Aap upar diye gaye QR code ko kisi bhi UPI app se scan kar sakte hain, ya niche apni UPI ID daal sakte hain.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction ID / UTR Number:</label>
+                    <input type="text" id="upiTxnId" placeholder="Payment ke baad 12-digit UTR ID yahan daalein">
+                </div>
+
+                <button class="cart-btn" onclick="submitOrder()">Confirm & Submit Order</button>
+                <button class="close-btn" onclick="backToForm()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Handling Form & Payment -->
+    <script>
+        let selectedProduct = "";
+        let selectedPrice = 0;
+
+        function openOrderModal(productName, price) {
+            selectedProduct = productName;
+            selectedPrice = price;
+            document.getElementById('modalProductTitle').innerText = "Order: " + productName;
+            document.getElementById('modalProductPrice').innerText = "₹" + price;
+            document.getElementById('payAmount').innerText = "₹" + price;
+            
+            // Reset views
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('paymentSection').style.display = 'none';
+            
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function proceedToPayment() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const address = document.getElementById('custAddress').value;
+
+            if(name === "" || phone === "" || address === "") {
+                alert("Kripya apni sabhi details (Name, Phone, Address) bharein!");
+                return;
+            }
+
+            // Switch from Form to Payment Section
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('paymentSection').style.display = 'block';
+        }
+
+        function backToForm() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('paymentSection').style.display = 'none';
+        }
+
+        function submitOrder() {
+            const txnId = document.getElementById('upiTxnId').value;
+
+            if(txnId === "") {
+                alert("Kripya payment karne ke baad UTR / Transaction ID enter karein!");
+                return;
+            }
+
+            alert("Aapka order successfully place ho gaya hai!\n\nProduct: " + selectedProduct + "\nPrice: ₹" + selectedPrice + "\nUTR ID: " + txnId + "\n\nKisi bhi sahayata ke liye sampark karein: 8955550232");
+            
+            closeOrderModal();
+            
+            // Clear inputs
+            document.getElementById('custName').value = "";
+            document.getElementById('custPhone').value = "";
+            document.getElementById('custAddress').value = "";
+            document.getElementById('upiTxnId').value = "";
+        }
+    </script>
+
+</body>
+</html>
